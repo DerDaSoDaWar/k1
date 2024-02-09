@@ -1,0 +1,3 @@
+# add [respond] for beining able to send M118 command for writing messages to klipper console
+[respond]
+# enable M118
