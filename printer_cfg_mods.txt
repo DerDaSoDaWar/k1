@@ -8,8 +8,29 @@ value: 0.00
 scale: 255
 shutdown_value: 0.0
 
-#filament runoutsensor
-filament_switch_sensor filament_sensor_2]
+#filament runoutsensor - guppy screen
+#changes from filament_switch_sensor filament_sensor_2
+# because with the new installer script version
+# we override the sensor with defining this
+[filament_switch_sensor filament_sensor]
+pause_on_runout: true
+switch_pin: !nozzle_mcu:PA10
+event_delay: 1.5
+pause_delay: 0.25
+insert_gcode: 
+  M118 filament inserted
+  LOAD_MATERIAL 
+runout_gcode:
+  M118 filament runout
+  {% if printer.extruder.can_extrude|lower == 'true' %}
+    G91
+    G1 E-30 F180
+    G1 E-50 F2000
+    G90
+  {% endif %}
+
+#filament runoutsensor - creality screen os
+[filament_switch_sensor filament_sensor_2]
 pause_on_runout: true
 switch_pin: !nozzle_mcu:PA10
 event_delay: 1.5
